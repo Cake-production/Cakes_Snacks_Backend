@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!-- Initial database schema -->
+    <include file="db/migration/001-create-users-table.xml"/>
+    <include file="db/migration/002-create-addresses-table.xml"/>
+    <include file="db/migration/003-create-products-table.xml"/>
+    <include file="db/migration/006-create-payment-methods-table.xml"/>
+    <include file="db/migration/004-create-orders-table.xml"/>
+    <include file="db/migration/005-create-order-items-table.xml"/>
+    <include file="db/migration/007-create-payments-table.xml"/>
+    <include file="db/migration/008-create-deliveries-table.xml"/>
+    <include file="db/migration/009-create-reviews-table.xml"/>
+    <include file="db/migration/010-create-user-profiles-table.xml"/>
+    <include file="db/migration/011-create-notification-preferences-table.xml"/>
+    <include file="db/migration/012-create-indexes.xml"/>
+    <include file="db/migration/013-insert-initial-data.xml"/>
+
+</databaseChangeLog>

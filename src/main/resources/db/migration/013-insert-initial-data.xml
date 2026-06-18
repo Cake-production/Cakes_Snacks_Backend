@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="013-insert-initial-data" author="admin">
+        <!-- Insert sample users -->
+        <insert tableName="users">
+            <column name="email" value="abi@gmail.com"/>
+            <column name="password" value="$2a$12$i0BOE9yjRoN6jCoRKtSXAuT620yPyLm0XVEC.6NlA6d0VQTUD7qqq"/>
+            <column name="first_name" value="Alexandra"/>
+            <column name="last_name" value="Beaumont"/>
+            <column name="phone" value="+1-555-0101"/>
+            <column name="role" value="CUSTOMER"/>
+            <column name="is_active" valueBoolean="true"/>
+            <column name="email_verified" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="email" value="manager@cakesandsnacks.com"/>
+            <column name="password" value="$2a$10$slYQmyNdGzin7olVN3DOCe1RVkJwNwN3Q5K8Q5K8Q5K8Q5K8Q5K8Q"/>
+            <column name="first_name" value="James"/>
+            <column name="last_name" value="Wilson"/>
+            <column name="phone" value="+1-555-0102"/>
+            <column name="role" value="MANAGER"/>
+            <column name="is_active" valueBoolean="true"/>
+            <column name="email_verified" valueBoolean="true"/>
+        </insert>
+
+        <!-- Insert sample products -->
+        <insert tableName="products">
+            <column name="name" value="Truffle Canelé Cake"/>
+            <column name="description" value="Premium vanilla bean with gold leaf"/>
+            <column name="price" value="48.00"/>
+            <column name="stock" value="24"/>
+            <column name="category" value="CAKES"/>
+            <column name="badge" value="Best Seller"/>
+            <column name="is_active" valueBoolean="true"/>
+            <column name="rating" value="4"/>
+            <column name="review_count" value="12"/>
+            <column name="sales" value="150"/>
+        </insert>
+
+        <insert tableName="products">
+            <column name="name" value="Gold Leaf Macarons Box"/>
+            <column name="description" value="Assorted French macarons"/>
+            <column name="price" value="62.00"/>
+            <column name="stock" value="18"/>
+            <column name="category" value="MACARONS"/>
+            <column name="badge" value="Premium"/>
+            <column name="is_active" valueBoolean="true"/>
+            <column name="rating" value="5"/>
+            <column name="review_count" value="8"/>
+            <column name="sales" value="120"/>
+        </insert>
+
+        <insert tableName="products">
+            <column name="name" value="Champagne Tier Cake"/>
+            <column name="description" value="Three-tier luxury cake"/>
+            <column name="price" value="95.00"/>
+            <column name="stock" value="12"/>
+            <column name="category" value="CAKES"/>
+            <column name="badge" value="Signature"/>
+            <column name="is_active" valueBoolean="true"/>
+            <column name="rating" value="5"/>
+            <column name="review_count" value="25"/>
+            <column name="sales" value="200"/>
+        </insert>
+
+        <insert tableName="products">
+            <column name="name" value="Velvet Plum Canelé"/>
+            <column name="description" value="Deep plum flavor"/>
+            <column name="price" value="45.00"/>
+            <column name="stock" value="30"/>
+            <column name="category" value="TARTS"/>
+            <column name="badge" value="Best Seller"/>
+            <column name="is_active" valueBoolean="true"/>
+            <column name="rating" value="4"/>
+            <column name="review_count" value="10"/>
+            <column name="sales" value="140"/>
+        </insert>
+
+        <insert tableName="products">
+            <column name="name" value="Midnight Berry Tart"/>
+            <column name="description" value="Mixed berry elegance"/>
+            <column name="price" value="52.00"/>
+            <column name="stock" value="15"/>
+            <column name="category" value="TARTS"/>
+            <column name="badge" value="Limited"/>
+            <column name="is_active" valueBoolean="true"/>
+            <column name="rating" value="5"/>
+            <column name="review_count" value="18"/>
+            <column name="sales" value="130"/>
+        </insert>
+
+        <insert tableName="products">
+            <column name="name" value="Ethereal Honey Cake"/>
+            <column name="description" value="Delicate honey infusion"/>
+            <column name="price" value="55.00"/>
+            <column name="stock" value="20"/>
+            <column name="category" value="CAKES"/>
+            <column name="badge" value="Seasonal"/>
+            <column name="is_active" valueBoolean="true"/>
+            <column name="rating" value="4"/>
+            <column name="review_count" value="14"/>
+            <column name="sales" value="110"/>
+        </insert>
+
+        <!-- Insert user profiles -->
+        <insert tableName="user_profiles">
+            <column name="user_id" value="1"/>
+            <column name="loyalty_points" value="250"/>
+            <column name="membership_tier" value="GOLD"/>
+        </insert>
+
+        <insert tableName="user_profiles">
+            <column name="user_id" value="2"/>
+            <column name="loyalty_points" value="0"/>
+            <column name="membership_tier" value="STANDARD"/>
+        </insert>
+
+        <!-- Insert notification preferences -->
+        <insert tableName="notification_preferences">
+            <column name="user_id" value="1"/>
+            <column name="notification_type" value="ORDER_UPDATES"/>
+            <column name="email_enabled" valueBoolean="true"/>
+            <column name="sms_enabled" valueBoolean="true"/>
+            <column name="push_enabled" valueBoolean="true"/>
+            <column name="in_app_enabled" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="notification_preferences">
+            <column name="user_id" value="1"/>
+            <column name="notification_type" value="NEW_COLLECTIONS"/>
+            <column name="email_enabled" valueBoolean="true"/>
+            <column name="sms_enabled" valueBoolean="false"/>
+            <column name="push_enabled" valueBoolean="true"/>
+            <column name="in_app_enabled" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="notification_preferences">
+            <column name="user_id" value="1"/>
+            <column name="notification_type" value="SPECIAL_OFFERS"/>
+            <column name="email_enabled" valueBoolean="true"/>
+            <column name="sms_enabled" valueBoolean="false"/>
+            <column name="push_enabled" valueBoolean="false"/>
+            <column name="in_app_enabled" valueBoolean="true"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

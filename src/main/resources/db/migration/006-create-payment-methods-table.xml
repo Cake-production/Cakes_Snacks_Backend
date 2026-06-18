@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="006-create-payment-methods-table" author="admin">
+        <createTable tableName="payment_methods">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="payment_type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="card_brand" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_four_digits" type="VARCHAR(4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiry_month" type="VARCHAR(2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiry_year" type="VARCHAR(4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cardholder_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="stripe_payment_method_id" type="VARCHAR(255)">
+                <constraints unique="true"/>
+            </column>
+            <column name="is_default" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Add foreign key constraint separately -->
+        <addForeignKeyConstraint
+                baseTableName="payment_methods"
+                baseColumnNames="user_id"
+                referencedTableName="users"
+                referencedColumnNames="id"
+                constraintName="fk_payment_methods_user"/>
+
+        <createIndex indexName="idx_payment_methods_user_id" tableName="payment_methods">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

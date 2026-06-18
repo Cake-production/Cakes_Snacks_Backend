@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="008-create-deliveries-table" author="admin">
+        <createTable tableName="deliveries">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="order_id" type="BIGINT">
+                <constraints nullable="false" unique="true" foreignKeyName="fk_deliveries_order" references="orders(id)"/>
+            </column>
+            <column name="status" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tracking_number" type="VARCHAR(100)">
+                <constraints unique="true"/>
+            </column>
+            <column name="carrier" type="VARCHAR(100)"/>
+            <column name="estimated_delivery_date" type="TIMESTAMP"/>
+            <column name="actual_delivery_date" type="TIMESTAMP"/>
+            <column name="delivery_notes" type="LONGTEXT"/>
+            <column name="driver_name" type="VARCHAR(255)"/>
+            <column name="driver_phone" type="VARCHAR(20)"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex indexName="idx_deliveries_order_id" tableName="deliveries">
+            <column name="order_id"/>
+        </createIndex>
+        <createIndex indexName="idx_deliveries_tracking_number" tableName="deliveries">
+            <column name="tracking_number"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
