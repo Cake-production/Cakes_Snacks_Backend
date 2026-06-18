@@ -19,8 +19,8 @@
         </insert>
 
         <insert tableName="users">
-            <column name="email" value="manager@cakesandsnacks.com"/>
-            <column name="password" value="$2a$10$slYQmyNdGzin7olVN3DOCe1RVkJwNwN3Q5K8Q5K8Q5K8Q5K8Q5K8Q"/>
+            <column name="email" value="kasthu@gmail.com"/>
+            <column name="password" value="$2a$12$i0BOE9yjRoN6jCoRKtSXAuT620yPyLm0XVEC.6NlA6d0VQTUD7qqq"/>
             <column name="first_name" value="James"/>
             <column name="last_name" value="Wilson"/>
             <column name="phone" value="+1-555-0102"/>
