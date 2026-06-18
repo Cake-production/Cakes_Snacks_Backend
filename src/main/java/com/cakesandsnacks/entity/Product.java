@@ -36,7 +36,7 @@ public class Product {
     @Column(nullable = false)
     private ProductCategory category;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String badge;
 
     @Column(columnDefinition = "TEXT")
