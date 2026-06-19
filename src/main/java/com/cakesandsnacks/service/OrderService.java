@@ -87,6 +87,8 @@ public class OrderService {
                     .country(dto.getShippingAddress().getCountry())
                     .phone(dto.getShippingAddress().getPhone())
                     .addressType(AddressType.SHIPPING)
+                    .isDefault(dto.getShippingAddress().getIsDefault() != null
+                            ? dto.getShippingAddress().getIsDefault() : false)
                     .build();
             order.setShippingAddress(address);
         }
@@ -98,13 +100,15 @@ public class OrderService {
             order.setPaymentMethod(paymentMethod);
         }
 
-        Order savedOrder = orderRepository.save(order);
-
-        // Add order items
+        // ✅ CRITICAL: Initialize the orderItems set and add all items
+        order.setOrderItems(new HashSet<>());
         for (OrderItem item : orderItems) {
-            item.setOrder(savedOrder);
-            orderItemRepository.save(item);
+            item.setOrder(order);
+            order.getOrderItems().add(item);
         }
+
+        // Save the order (cascade will persist orderItems)
+        Order savedOrder = orderRepository.save(order);
 
         return convertToDTO(savedOrder);
     }
@@ -133,14 +137,14 @@ public class OrderService {
     public void cancelOrder(Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
-        
-        if (order.getStatus() != OrderStatus.PENDING && 
-            order.getStatus() != OrderStatus.CONFIRMED) {
+
+        if (order.getStatus() != OrderStatus.PENDING &&
+                order.getStatus() != OrderStatus.CONFIRMED) {
             throw new RuntimeException("Cannot cancel order with status: " + order.getStatus());
         }
 
         order.setStatus(OrderStatus.CANCELLED);
-        
+
         // Restore product stock
         for (OrderItem item : order.getOrderItems()) {
             Product product = item.getProduct();
@@ -161,6 +165,7 @@ public class OrderService {
     }
 
     private OrderDTO convertToDTO(Order order) {
+        // ✅ order.getOrderItems() is now guaranteed to be non‑null
         List<OrderItemDTO> items = order.getOrderItems().stream()
                 .map(item -> new OrderItemDTO(
                         item.getId(),

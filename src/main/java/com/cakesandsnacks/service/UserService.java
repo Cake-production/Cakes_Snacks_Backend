@@ -2,11 +2,15 @@ package com.cakesandsnacks.service;
 
 import com.cakesandsnacks.dto.*;
 import com.cakesandsnacks.entity.User;
+import com.cakesandsnacks.entity.UserProfile;
+import com.cakesandsnacks.repository.UserProfileRepository;
 import com.cakesandsnacks.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,27 +18,29 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional
 public class UserService {
+
     private final UserRepository userRepository;
+    private final UserProfileRepository userProfileRepository;
     private final PasswordEncoder passwordEncoder;
 
     public UserDTO registerUser(UserRegistrationDTO dto) {
         if (userRepository.findByEmail(dto.getEmail()).isPresent()) {
             throw new RuntimeException("Email already exists");
         }
-        
+
         User user = User.builder()
                 .email(dto.getEmail())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
                 .phone(dto.getPhone())
-                .role(dto.getRole().equalsIgnoreCase("MANAGER") ? 
-                    com.cakesandsnacks.entity.UserRole.MANAGER : 
-                    com.cakesandsnacks.entity.UserRole.CUSTOMER)
+                .role(dto.getRole().equalsIgnoreCase("MANAGER") ?
+                        com.cakesandsnacks.entity.UserRole.MANAGER :
+                        com.cakesandsnacks.entity.UserRole.CUSTOMER)
                 .isActive(true)
                 .emailVerified(false)
                 .build();
-        
+
         User savedUser = userRepository.save(user);
         return convertToDTO(savedUser);
     }
@@ -53,11 +59,23 @@ public class UserService {
     public UserDTO updateUser(Long id, UserProfileDTO dto) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        
+
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
         user.setPhone(dto.getPhone());
-        
+
+        if (dto.getDateOfBirth() != null) {
+            UserProfile profile = user.getUserProfile();
+            if (profile == null) {
+                profile = UserProfile.builder()
+                        .user(user)
+                        .build();
+                user.setUserProfile(profile);
+            }
+            profile.setDateOfBirth(dto.getDateOfBirth());
+            userProfileRepository.save(profile);
+        }
+
         User updated = userRepository.save(user);
         return convertToDTO(updated);
     }
@@ -77,11 +95,13 @@ public class UserService {
     }
 
     private UserDTO convertToDTO(User user) {
+        LocalDate dob = (user.getUserProfile() != null) ? user.getUserProfile().getDateOfBirth() : null;
         return new UserDTO(
                 user.getId(),
                 user.getEmail(),
                 user.getFirstName(),
                 user.getLastName(),
+                dob,
                 user.getPhone(),
                 user.getRole().toString(),
                 user.getProfileImage(),

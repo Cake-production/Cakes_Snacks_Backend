@@ -27,12 +27,14 @@ public class ProductService {
                 .badge(dto.getBadge())
                 .imageUrl(dto.getImageUrl())
                 .isActive(true)
+                .rating(0)
+                .reviewCount(0)
+                .sales(0)
                 .build();
-        
+
         Product saved = productRepository.save(product);
         return convertToDTO(saved);
     }
-
     public ProductDTO getProductById(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
