@@ -2,6 +2,7 @@ package com.cakesandsnacks.dto;
 
 import lombok.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 // User DTOs
@@ -13,6 +14,7 @@ public class UserDTO {
     private String email;
     private String firstName;
     private String lastName;
+    private LocalDate dateOfBirth;
     private String phone;
     private String role;
     private String profileImage;

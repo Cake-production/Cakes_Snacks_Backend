@@ -1,11 +1,14 @@
 package com.cakesandsnacks.controller;
 
 import com.cakesandsnacks.dto.*;
+import com.cakesandsnacks.entity.User;
 import com.cakesandsnacks.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -47,12 +50,14 @@ public class UserController {
 
     @GetMapping("/email/{email}")
     public ResponseEntity<UserDTO> getUserByEmail(@PathVariable String email) {
-        com.cakesandsnacks.entity.User user = userService.findByEmail(email);
+        User user = userService.findByEmail(email);
+        LocalDate dob = (user.getUserProfile() != null) ? user.getUserProfile().getDateOfBirth() : null;
         return ResponseEntity.ok(new UserDTO(
                 user.getId(),
                 user.getEmail(),
                 user.getFirstName(),
                 user.getLastName(),
+                dob,
                 user.getPhone(),
                 user.getRole().toString(),
                 user.getProfileImage(),
